@@ -1,11 +1,13 @@
 export class BlazeGPU {
-    canvas: HTMLCanvasElement;
-    context: GPUCanvasContext;
-    adapter: GPUAdapter;
-    device: GPUDevice;
-    presentationFormat: string;
-    module: GPUShaderModule;
-    pipeline: GPURenderPipeline;
+    private canvas: HTMLCanvasElement;
+    private context: GPUCanvasContext;
+    private adapter: GPUAdapter;
+    private device: GPUDevice;
+    private presentationFormat: string;
+    private module: GPUShaderModule;
+    private pipeline: GPURenderPipeline;
+    private encoder: GPUCommandEncoder;
+    private pass: GPURenderPassEncoder;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -36,42 +38,30 @@ export class BlazeGPU {
         });
     }
 
-    createPipeline() {
-        this.pipeline = this.device.createRenderPipeline({
-            label:"Simple pipeline",
-            layout: "auto",
-            vertex: {
-                module: this.module,
-                entryPoint: "vs",
-            },
-            fragment: {
-                module: this.module,
-                entryPoint: "fs",
-                targets: [{ format: this.presentationFormat }],
-            }
-        })
+    createPipeline(pipeline: GPURenderPipelineDescriptor) {
+        this.pipeline = this.device.createRenderPipeline(pipeline)
+    }
+
+    getModule() {
+        return this.module;
+    }
+
+    getPresentationFormat() {
+        return this.presentationFormat;
+    }
+
+    createEncoder(renderPassDescriptor: GPURenderPassDescriptor) {
+        renderPassDescriptor.colorAttachments[0].view = this.context.getCurrentTexture().createView();
+        this.encoder = this.device.createCommandEncoder({ label: "Simple encoder" });
+        this.pass = this.encoder.beginRenderPass(renderPassDescriptor);
     }
 
     render() {
-        const renderPassDescriptor = {
-            label: "Simple render pass",
-            colorAttachments: [{
-                clearValue: [0.3, 0.3, 0.3, 1.0],
-                loadOp: "clear",
-                storeOp: "store",
-            }]
-        }
+        this.pass.setPipeline(this.pipeline);
+        this.pass.draw(3);
+        this.pass.end();
 
-        renderPassDescriptor.colorAttachments[0].view = this.context.getCurrentTexture().createView();
-
-        const encoder = this.device.createCommandEncoder({ label: "Simple encoder" });
-
-        const pass = encoder.beginRenderPass(renderPassDescriptor);
-        pass.setPipeline(this.pipeline);
-        pass.draw(3);
-        pass.end();
-
-        const commandBuffer = encoder.finish();
+        const commandBuffer = this.encoder.finish();
 
         this.device.queue.submit([commandBuffer]);
     }

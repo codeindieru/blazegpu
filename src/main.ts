@@ -28,5 +28,27 @@ webGPU.createShader(
     shaderCode
 );
 
-webGPU.createPipeline();
+webGPU.createPipeline({
+            label:"Simple pipeline",
+            layout: "auto",
+            vertex: {
+                module: webGPU.getModule(),
+                entryPoint: "vs",
+            },
+            fragment: {
+                module: webGPU.getModule(),
+                entryPoint: "fs",
+                targets: [{ format: webGPU.getPresentationFormat() }],
+            }
+        });
+
+webGPU.createEncoder({
+    label: "Simple render pass",
+    colorAttachments: [{
+        clearValue: [0.3, 0.3, 0.3, 1.0],
+        loadOp: "clear",
+        storeOp: "store",
+    }]
+});
+
 webGPU.render();
