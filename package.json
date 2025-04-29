@@ -1,6 +1,6 @@
 {
   "name": "blazegpu",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A high-performance WebGPU framework for modern graphics and compute",
   "main": "dist/index.js",
   "files": ["dist/**/*"],
