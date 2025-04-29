@@ -5,12 +5,16 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     lib: {
-      entry: 'src/index.ts',
+      entry: resolve(__dirname, 'src/index.ts'),
       name: 'BlazeGPU',
-      fileName: 'blazegpu'
+      fileName: 'blazegpu',
+      formats: ['es', 'umd']
     },
     rollupOptions: {
-      external: [],
+      output: {
+        entryFileNames: 'index.js',
+        format: 'umd'
+      }
     }
   },
   server: {
