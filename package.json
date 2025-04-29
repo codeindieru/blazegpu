@@ -1,6 +1,6 @@
 {
   "name": "blazegpu",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A high-performance WebGPU framework for modern graphics and compute",
   "main": "dist/index.js",
   "scripts": {
@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/codeindieru/blazegpu/issues"
   },
-  "homepage": "https://github.com/codeindieru/blazegpu#readme"
+  "homepage": "https://github.com/codeindieru/blazegpu#readme",
+  "dependencies": {
+    "@webgpu/types": "^0.1.60"
+  }
 }
