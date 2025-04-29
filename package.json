@@ -1,0 +1,29 @@
+{
+  "name": "blazegpu",
+  "version": "1.0.0",
+  "description": "A high-performance WebGPU framework for modern graphics and compute",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeindieru/blazegpu.git"
+  },
+  "keywords": [
+    "webgpu",
+    "graphics",
+    "gpu",
+    "3d",
+    "2d",
+    "rendering",
+    "compute",
+    "shaders"
+  ],
+  "author": "codeindieru",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codeindieru/blazegpu/issues"
+  },
+  "homepage": "https://github.com/codeindieru/blazegpu#readme"
+}
