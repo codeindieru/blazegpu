@@ -1,5 +1,7 @@
 # BlazeGPU
 
+> ⚠️ **Alpha Version Warning**: This is an alpha version of BlazeGPU and does not reflect the final product. Features, APIs, and functionality may change significantly in future releases.
+
 BlazeGPU is a high-performance WebGPU framework designed for modern graphics and compute tasks.
 
 ## Description

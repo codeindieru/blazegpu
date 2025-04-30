@@ -50,13 +50,22 @@ export class BlazeGPU {
         return this.presentationFormat;
     }
 
+    getDevice() {
+        return this.device;
+    }
+
+    getCanvas() {
+        return this.canvas;
+    }
+
     createEncoder(renderPassDescriptor: GPURenderPassDescriptor) {
         renderPassDescriptor.colorAttachments[0].view = this.context.getCurrentTexture().createView();
         this.encoder = this.device.createCommandEncoder({ label: "Simple encoder" });
         this.pass = this.encoder.beginRenderPass(renderPassDescriptor);
     }
 
-    render() {
+    render(renderPassDescriptor: GPURenderPassDescriptor) {
+        this.createEncoder(renderPassDescriptor);
         this.pass.setPipeline(this.pipeline);
         this.pass.draw(3);
         this.pass.end();

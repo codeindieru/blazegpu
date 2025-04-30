@@ -42,13 +42,22 @@ webGPU.createPipeline({
             }
         });
 
-webGPU.createEncoder({
-    label: "Simple render pass",
-    colorAttachments: [{
-        clearValue: [0.3, 0.3, 0.3, 1.0],
-        loadOp: "clear",
-        storeOp: "store",
-    }]
-});
+const observer = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const width = entry.contentBoxSize[0].inlineSize;
+      const height = entry.contentBoxSize[0].blockSize;
+      webGPU.getCanvas().width = Math.max(1, Math.min(width, webGPU.getDevice().limits.maxTextureDimension2D));
+      webGPU.getCanvas().height = Math.max(1, Math.min(height, webGPU.getDevice().limits.maxTextureDimension2D));
+      webGPU.render({
+        label: "Simple render pass",
+        colorAttachments: [{
+            clearValue: [0.3, 0.3, 0.3, 1.0],
+            loadOp: "clear",
+            storeOp: "store",
+        }]
+    });
+    }
+  });
 
-webGPU.render();
+  observer.observe(webGPU.getCanvas());
+
